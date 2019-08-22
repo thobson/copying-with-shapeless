@@ -19,7 +19,6 @@ object Main {
     val LocationGen = LabelledGeneric[Location]
     val VehicleGen = LabelledGeneric[Vehicle]
     val DriverGen = LabelledGeneric[Driver]
-    val ReservationGen = LabelledGeneric[Reservation]
 
     val locationRepr = LocationGen.to(location)
     val (_, vehicleRepr) = VehicleGen.to(vehicle).remove('isDiesel)
@@ -27,7 +26,6 @@ object Main {
 
     val misalignedReservationRepr = locationRepr ++ vehicleRepr ++ driverRepr :+ ('confirmed ->> true)
 
-    // closer!
     /*_*/ val reservation: Reservation = misalignedReservationRepr.as[Reservation] /*_*/
     println(s"from date: ${reservation.from}")
   }
