@@ -8,6 +8,8 @@ import shapeless.syntax.singleton._
 object Main {
 
   def main(args: Array[String]): Unit = {
+    import ShapelessOps._
+
     // Our case class representations of the data
     // See the updated case class declaration for Location
     val location = Location(pickup = "Malaga Airport", dropOff = "Malaga Airport", from = LocalDate.of(2018,8,1), to = LocalDate.of(2018,8,10))
@@ -26,7 +28,7 @@ object Main {
     val misalignedReservationRepr = locationRepr ++ vehicleRepr ++ driverRepr :+ ('confirmed ->> true)
 
     // closer!
-    val reservation: Reservation = ReservationGen.from(misalignedReservationRepr)
+    /*_*/ val reservation: Reservation = misalignedReservationRepr.as[Reservation] /*_*/
     println(s"from date: ${reservation.from}")
   }
 
