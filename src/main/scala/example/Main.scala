@@ -10,7 +10,7 @@ object Main {
     // Our case class representations of the data
     // See the updated case class declaration for Location
     val location = Location(pickup = "Malaga Airport", dropOff = "Malaga Airport", from = LocalDate.of(2018,8,1), to = LocalDate.of(2018,8,10))
-    val vehicle = Vehicle(vehicleCategory = "Economy", automatic = false, numDoors = 4)
+    val vehicle = Vehicle(vehicleCategory = "Economy", automatic = false, numDoors = 4, isDiesel = true)
     val driver = Driver(driverAge = 35, nationality = "British")
 
     val LocationGen = LabelledGeneric[Location]
@@ -24,7 +24,7 @@ object Main {
 
     val reservationRepr = locationRepr ++ vehicleRepr ++ driverRepr
 
-    // This will now compile
+    // This will not compile
     val reservation: Reservation = ReservationGen.from(reservationRepr)
     println(s"from date: ${reservation.from}")
   }
