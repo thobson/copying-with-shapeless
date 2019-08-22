@@ -23,8 +23,10 @@ object Main {
     val driverRepr = DriverGen.to(driver)
 
     val reservationRepr = locationRepr ++ vehicleRepr ++ driverRepr
-    // This won't compile
+
+    // This will now compile
     val reservation: Reservation = ReservationGen.from(reservationRepr)
+    println(s"from date: ${reservation.from}")
   }
 
 }
