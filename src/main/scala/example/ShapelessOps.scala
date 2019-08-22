@@ -1,27 +1,32 @@
 package example
 
+import shapeless.ops.hlist
+import hlist.Intersection
+import hlist.Align
+
 object ShapelessOps {
 
   import shapeless._
-  import shapeless.ops.hlist
 
-  // 1
   implicit class AlignerOps[ARepr <: HList](a: ARepr) {
     def as[B](implicit aligner: Aligner[ARepr, B]): B = aligner.apply(a)
   }
 
-  // 2
   trait Aligner[A, B] {
     def apply(a: A): B
   }
 
-  // 3
-  implicit def genericAligner[ARepr <: HList, B, BRepr <: HList](
+  implicit def genericAligner[ARepr <: HList, Unaligned <: HList, B, BRepr <: HList](
     implicit
     bGen    : LabelledGeneric.Aux[B, BRepr],
-    align   : hlist.Align[ARepr, BRepr]
+    inter   : Intersection.Aux[ARepr, BRepr, Unaligned],
+    align   : Align[Unaligned, BRepr],
   ): Aligner[ARepr, B] = new Aligner[ARepr, B] {
-    def apply(a: ARepr): B = bGen.from(align.apply(a))
+    def apply(a: ARepr): B = bGen.from(align(inter(a)))
+  }
+
+  implicit class GenericOps[A, ARepr <: HList](val a: A)(implicit gen: LabelledGeneric.Aux[A, ARepr]) {
+    def repr: ARepr = LabelledGeneric[A].to(a)
   }
 
 }
