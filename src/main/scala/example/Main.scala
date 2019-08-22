@@ -7,7 +7,8 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     // Our case class representations of the data
-    val location = Location(pickup = "Malaga Airport", dropOff = "Malaga Airport", from = LocalDate.of(2018,8,1), to = LocalDate.of(2018,8,10))
+    // See the updated case class declaration for Location
+    val location = Location(pickup = "Malaga Airport", dropOff = "Malaga Airport", to = LocalDate.of(2018,8,10), from = LocalDate.of(2018,8,1))
     val vehicle = Vehicle(vehicleCategory = "Economy", automatic = false, numDoors = 4)
     val driver = Driver(driverAge = 35, nationality = "British")
 
@@ -17,7 +18,7 @@ object Main {
 
     val reservationRepr = locationRepr ++ vehicleRepr ++ driverRepr
     val reservation: Reservation = Generic[Reservation].from(reservationRepr)
-    println(s"pickup location: ${reservation.pickup}")
+    println(s"from date: ${reservation.from}")
   }
 
 }

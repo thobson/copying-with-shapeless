@@ -4,7 +4,7 @@ import java.time.LocalDate
 
 /* Represents the individual "pages" of our application */
 
-case class Location(pickup: String, dropOff: String, from: LocalDate, to: LocalDate)
+case class Location(pickup: String, dropOff: String, to: LocalDate, from: LocalDate)
 
 case class Vehicle(vehicleCategory: String, automatic: Boolean, numDoors: Int)
 
