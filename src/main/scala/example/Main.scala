@@ -1,8 +1,9 @@
 package example
 
 import java.time.LocalDate
-
 import shapeless.LabelledGeneric
+import shapeless.record._
+import shapeless.syntax.singleton._
 
 object Main {
 
@@ -19,13 +20,13 @@ object Main {
     val ReservationGen = LabelledGeneric[Reservation]
 
     val locationRepr = LocationGen.to(location)
-    val vehicleRepr = VehicleGen.to(vehicle)
+    val (_, vehicleRepr) = VehicleGen.to(vehicle).remove('isDiesel)
     val driverRepr = DriverGen.to(driver)
 
-    val reservationRepr = locationRepr ++ vehicleRepr ++ driverRepr
+    val misalignedReservationRepr = locationRepr ++ vehicleRepr ++ driverRepr :+ ('confirmed ->> true)
 
-    // This will not compile
-    val reservation: Reservation = ReservationGen.from(reservationRepr)
+    // closer!
+    val reservation: Reservation = ReservationGen.from(misalignedReservationRepr)
     println(s"from date: ${reservation.from}")
   }
 
