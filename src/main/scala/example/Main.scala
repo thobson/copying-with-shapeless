@@ -1,7 +1,8 @@
 package example
 
 import java.time.LocalDate
-import shapeless.Generic
+
+import shapeless.LabelledGeneric
 
 object Main {
 
@@ -12,13 +13,18 @@ object Main {
     val vehicle = Vehicle(vehicleCategory = "Economy", automatic = false, numDoors = 4)
     val driver = Driver(driverAge = 35, nationality = "British")
 
-    val locationRepr = Generic[Location].to(location)
-    val vehicleRepr = Generic[Vehicle].to(vehicle)
-    val driverRepr = Generic[Driver].to(driver)
+    val LocationGen = LabelledGeneric[Location]
+    val VehicleGen = LabelledGeneric[Vehicle]
+    val DriverGen = LabelledGeneric[Driver]
+    val ReservationGen = LabelledGeneric[Reservation]
+
+    val locationRepr = LocationGen.to(location)
+    val vehicleRepr = VehicleGen.to(vehicle)
+    val driverRepr = DriverGen.to(driver)
 
     val reservationRepr = locationRepr ++ vehicleRepr ++ driverRepr
-    val reservation: Reservation = Generic[Reservation].from(reservationRepr)
-    println(s"from date: ${reservation.from}")
+    // This won't compile
+    val reservation: Reservation = ReservationGen.from(reservationRepr)
   }
 
 }
